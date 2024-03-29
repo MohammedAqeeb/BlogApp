@@ -57,6 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const AuthButton(buttonText: 'Sign Up'),
               const SizedBox(height: 15),
               GestureDetector(
+
                 onTap: () {
                   Navigator.push(
                     context,
@@ -74,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         text: 'Sign In',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppPallete.gradient1,
+                                  color: AppPalette.gradient1,
                                   fontWeight: FontWeight.bold,
                                 ),
                       ),

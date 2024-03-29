@@ -15,8 +15,8 @@ class AuthButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
-            AppPallete.gradient1,
-            AppPallete.gradient2,
+            AppPalette.gradient1,
+            AppPalette.gradient2,
           ],
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
@@ -25,8 +25,8 @@ class AuthButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppPallete.transparentColor,
-          shadowColor: AppPallete.transparentColor,
+          backgroundColor: AppPalette.transparentColor,
+          shadowColor: AppPalette.transparentColor,
           fixedSize: const Size(395, 55),
         ),
         onPressed: () {},

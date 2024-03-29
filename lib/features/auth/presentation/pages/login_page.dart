@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
+///EaUMieGALGpHgR43
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                         text: 'Sign Up',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppPallete.gradient1,
+                                  color: AppPalette.gradient1,
                                   fontWeight: FontWeight.bold,
                                 ),
                       ),
