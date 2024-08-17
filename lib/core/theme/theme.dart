@@ -1,6 +1,6 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
-
+  
 class AppTheme {
   // Resusable Border color
   static _border([Color color = AppPalette.borderColor]) => OutlineInputBorder(
