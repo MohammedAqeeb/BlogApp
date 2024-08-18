@@ -1,7 +1,7 @@
 import 'package:blog_app/core/error/exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract interface class AuthDataSource { 
+abstract interface class AuthRemoteDataSource {
   Future<String> signUpWithEmailPassword({
     required String name,
     required String email,
@@ -13,10 +13,10 @@ abstract interface class AuthDataSource {
   });
 }
 
-class AuthService implements AuthDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
 
-  AuthService(this.supabaseClient);
+  AuthRemoteDataSourceImpl(this.supabaseClient);
 
   @override
   Future<String> signInEmailPassword({
