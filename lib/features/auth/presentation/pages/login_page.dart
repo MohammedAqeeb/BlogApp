@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+
 ///EaUMieGALGpHgR43
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
@@ -46,7 +47,10 @@ class _LoginPageState extends State<LoginPage> {
                 isObscureText: true,
               ),
               const SizedBox(height: 20),
-              const AuthButton(buttonText: 'Login'),
+              AuthButton(
+                buttonText: 'Login',
+                onPressed: () {},
+              ),
               const SizedBox(height: 15),
               GestureDetector(
                 onTap: () {

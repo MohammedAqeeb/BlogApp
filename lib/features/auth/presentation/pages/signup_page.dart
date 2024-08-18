@@ -1,7 +1,9 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/login_page.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/auth_field.dart';
 
@@ -55,7 +57,21 @@ class _SignUpPageState extends State<SignUpPage> {
                   isObscureText: true,
                 ),
                 const SizedBox(height: 20),
-                const AuthButton(buttonText: 'Sign Up'),
+                AuthButton(
+                  buttonText: 'Sign Up',
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(
+                            AuthSignUpEvent(
+                              email: emailController.text.trim(),
+                              name: nameController.text.trim(),
+                              password: passwordController.text.trim(),
+                            ),
+                          );
+                      ;
+                    }
+                  },
+                ),
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {

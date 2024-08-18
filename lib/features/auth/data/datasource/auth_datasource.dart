@@ -1,7 +1,7 @@
 import 'package:blog_app/core/error/exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract interface class AuthDataSource {
+abstract interface class AuthDataSource { 
   Future<String> signUpWithEmailPassword({
     required String name,
     required String email,
