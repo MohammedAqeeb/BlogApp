@@ -1,16 +1,23 @@
 import 'package:blog_app/core/error/exception.dart';
+import 'package:blog_app/features/auth/data/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// interface to interacts with database/supabase
+///
+///
 abstract interface class AuthRemoteDataSource {
-  Future<String> signUpWithEmailPassword({
+  Session? get currentUserSession;
+  Future<UserModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
   });
-  Future<String> signInEmailPassword({
+  Future<UserModel> signInEmailPassword({
     required String email,
     required String password,
   });
+
+  Future<UserModel?> getCurrentUser();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -19,7 +26,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.supabaseClient);
 
   @override
-  Future<String> signInEmailPassword({
+  Session? get currentUserSession => supabaseClient.auth.currentSession;
+
+  /// Function to get raw data weather user signed in or not
+  ///
+  @override
+  Future<UserModel> signInEmailPassword({
     required String email,
     required String password,
   }) async {
@@ -31,14 +43,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.user == null) {
         throw CustomException('User Does\'t exists');
       }
-      return response.session!.accessToken;
+      return UserModel.fromJson(response.user!.toJson());
     } catch (e) {
       throw (e.toString());
     }
   }
 
+  /// Function to send data to supabase for registering users
+  ///
   @override
-  Future<String> signUpWithEmailPassword({
+  Future<UserModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -55,7 +69,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.user == null) {
         throw CustomException('User is null!!');
       }
-      return response.user!.id;
+      return UserModel.fromJson(response.user!.toJson())
+          .copyWith(email: currentUserSession!.user.email);
+    } catch (e) {
+      throw CustomException(e.toString());
+    }
+  }
+
+  /// Function to check the current user sessions
+  ///
+  @override
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      if (currentUserSession != null) {
+        // from supabase tables checking weather the current user matches with the registered users
+        final userSession = await supabaseClient
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+
+        return UserModel.fromJson(userSession.first);
+      }
+
+      return null;
     } catch (e) {
       throw CustomException(e.toString());
     }

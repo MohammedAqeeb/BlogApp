@@ -1,36 +1,67 @@
 import 'package:blog_app/core/error/exception.dart';
 import 'package:blog_app/core/error/failure.dart';
 import 'package:blog_app/features/auth/data/datasource/auth_datasource.dart';
+import 'package:blog_app/core/entity/user.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImplementation implements AuthRepository {
   final AuthRemoteDataSource authDataSource;
 
   AuthRepositoryImplementation(this.authDataSource);
   @override
-  Future<Either<Failure, String>> signInWithEmailAndPassword({
+  Future<Either<Failure, User>> signInWithEmailAndPassword({
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError();
+  }) async {
+    return _getUser(
+      () async => await authDataSource.signInEmailPassword(
+        email: email,
+        password: password,
+      ),
+    );
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailAndPassword({
+  Future<Either<Failure, User>> signUpWithEmailAndPassword({
     required String name,
     required String email,
     required String password,
   }) async {
-    try {
-      final userId = await authDataSource.signUpWithEmailPassword(
+    return _getUser(
+      () async => await authDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
-      );
-      return right(userId);
+      ),
+    );
+  }
+
+  Future<Either<Failure, User>> _getUser(
+    Future<User> Function() fn,
+  ) async {
+    try {
+      final user = await fn();
+      return right(user);
+    } on sb.AuthException catch (e) {
+      return left(Failure(e.message));
     } on CustomException catch (e) {
       return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> currentUser() async {
+    try {
+      final user = await authDataSource.getCurrentUser();
+
+      if (user == null) {
+        return left(const Failure(('user does\'t exists')));
+      }
+      return right(user);
+    } on CustomException catch (e) {
+      throw left(Failure(e.toString()));
     }
   }
 }
