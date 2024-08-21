@@ -2,7 +2,7 @@ import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/login_page.dart';
-import 'package:blog_app/features/blog/presentation/pages/home.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_home.dart';
 import 'package:blog_app/init_dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
           return state is AppUserLoggedIn;
         },
         builder: (context, isLoggedIn) {
-          return isLoggedIn == true ? const HomeScreen() : const LoginPage();
+          return isLoggedIn == true ? const BlogHome() : const LoginPage();
         },
       ),
     );

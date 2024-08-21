@@ -1,6 +1,6 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
-  
+
 class AppTheme {
   // Resusable Border color
   static _border([Color color = AppPalette.borderColor]) => OutlineInputBorder(
@@ -23,6 +23,13 @@ class AppTheme {
       contentPadding: const EdgeInsets.all(27),
       enabledBorder: _border(),
       focusedBorder: _border(AppPalette.gradient2),
+    ),
+
+    chipTheme: const ChipThemeData(
+      side: BorderSide.none,
+      color: WidgetStatePropertyAll(
+        AppPalette.backgroundColor,
+      ),
     ),
   );
 }
