@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BlogHome extends StatelessWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const BlogHome(),
+      );
   const BlogHome({super.key});
 
   @override

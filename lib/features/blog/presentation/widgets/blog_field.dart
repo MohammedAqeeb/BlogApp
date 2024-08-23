@@ -17,6 +17,13 @@ class BlogField extends StatelessWidget {
         hintText: hintText,
       ),
       maxLines: null,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$hintText is empty';
+        } else {
+          return null;
+        }
+      },
     );
   }
 }

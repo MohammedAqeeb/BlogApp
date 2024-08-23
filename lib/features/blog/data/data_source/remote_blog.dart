@@ -10,15 +10,21 @@ abstract interface class RemoteBlogDataSoure {
     required File uploadedImage,
     required BlogModel blog,
   });
-  Future<BlogModel> uploadBlod(BlogModel blog);
+  Future<BlogModel> uploadBlog(BlogModel blog);
+
+  Future<List<BlogModel>> fetchAllBlog();
 }
 
 class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
   final SupabaseClient supabaseClient;
 
   RemoteBlogDataSourceImpl(this.supabaseClient);
+
+  /// Function to upload blogs on supabase
+  ///
   @override
-  Future<BlogModel> uploadBlod(BlogModel blog) async {
+  Future<BlogModel> uploadBlog(BlogModel blog) async {
+    print('insert is called 6');
     try {
       final blogData =
           await supabaseClient.from('blogs').insert(blog.toJson()).select();
@@ -29,11 +35,15 @@ class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
     }
   }
 
+  /// Function to upload image on supabase storage
+  ///
   @override
   Future<String> uploadBlogImage({
     required File uploadedImage,
     required BlogModel blog,
   }) async {
+    print('upload image is called 5');
+    print(blog.blogId);
     try {
       await supabaseClient.storage
           .from('blog_images')
@@ -42,6 +52,18 @@ class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
       return supabaseClient.storage
           .from('blog_images')
           .getPublicUrl(blog.blogId);
+    } catch (e) {
+      throw CustomException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> fetchAllBlog() async {
+    try {
+      final blogs =
+          await supabaseClient.from('blogs').select('*, profiles (name)');
+
+      return blogs.map((blog) => BlogModel.fromJson(blog)).toList();
     } catch (e) {
       throw CustomException(e.toString());
     }

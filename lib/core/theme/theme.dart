@@ -21,8 +21,10 @@ class AppTheme {
     // For Decoration of Input fields
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(27),
+      border: _border(),
       enabledBorder: _border(),
       focusedBorder: _border(AppPalette.gradient2),
+      errorBorder: _border(AppPalette.errorColor),
     ),
 
     chipTheme: const ChipThemeData(
