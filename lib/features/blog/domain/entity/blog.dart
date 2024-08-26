@@ -12,6 +12,7 @@ class Blog {
   final List<String> topics;
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+  final String? name;
 
   const Blog({
     required this.blogId,
@@ -21,5 +22,6 @@ class Blog {
     required this.imageUrl,
     required this.topics,
     required this.updatedAt,
+    this.name,
   });
 }

@@ -23,7 +23,6 @@ class BlogRepositoryImpl implements BlogRepositary {
     required List<String> topics,
   }) async {
     try {
-       print('repo is called 5');
       /// 1. Assigning the values to blog Models
       BlogModel blogModel = BlogModel(
         blogId: const Uuid().v1(),
@@ -34,8 +33,6 @@ class BlogRepositoryImpl implements BlogRepositary {
         topics: topics,
         updatedAt: DateTime.now(),
       );
-      print('repos');
-      print(blogModel.blogId);
 
       // 2. Obtaining the imageUrl from supabase
       final image = await remoteBlogDataSoure.uploadBlogImage(
@@ -50,10 +47,19 @@ class BlogRepositoryImpl implements BlogRepositary {
       // returning the blog model from the Either function to Right
       return right(uploadedBlog);
     } on CustomException catch (e) {
-      print('errorss ${e.toString()}');
-
       // returning the failure message from the Either function to left
       throw left(e.message);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Blog>>> fetchBlog() async {
+    try {
+      final allBlogs = await remoteBlogDataSoure.fetchAllBlog();
+
+      return right(allBlogs);
+    } on CustomException catch (e) {
+      throw left(e.toString());
     }
   }
 }

@@ -24,7 +24,6 @@ class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
   ///
   @override
   Future<BlogModel> uploadBlog(BlogModel blog) async {
-    print('insert is called 6');
     try {
       final blogData =
           await supabaseClient.from('blogs').insert(blog.toJson()).select();
@@ -42,8 +41,6 @@ class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
     required File uploadedImage,
     required BlogModel blog,
   }) async {
-    print('upload image is called 5');
-    print(blog.blogId);
     try {
       await supabaseClient.storage
           .from('blog_images')
@@ -63,7 +60,10 @@ class RemoteBlogDataSourceImpl implements RemoteBlogDataSoure {
       final blogs =
           await supabaseClient.from('blogs').select('*, profiles (name)');
 
-      return blogs.map((blog) => BlogModel.fromJson(blog)).toList();
+      return blogs
+          .map((blog) =>
+              BlogModel.fromJson(blog).copyWith(name: blog['profiles']['name']))
+          .toList();
     } catch (e) {
       throw CustomException(e.toString());
     }

@@ -12,4 +12,6 @@ abstract interface class BlogRepositary {
     required String userId,
     required List<String> topics,
   });
+
+  Future<Either<Failure, List<Blog>>> fetchBlog();
 }

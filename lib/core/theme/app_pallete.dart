@@ -10,5 +10,11 @@ class AppPalette {
   static const Color greyColor = Colors.grey;
   static const Color errorColor = Colors.redAccent;
   static const Color transparentColor = Colors.transparent;
-}
 
+  static const Color cardColor1 = Color(0xFFEB5951);
+  static const Color cardColor2 = Color(0xFF2CAC5C);
+  static const Color cardColor3 = Color(0xFFF1E822);
+  static const Color cardColor4 = Color(0xFFC6B9FF);
+
+  static const Color cardColor7 = Color(0xFF6A7BA2);
+}

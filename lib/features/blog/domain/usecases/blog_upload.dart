@@ -13,7 +13,6 @@ class BlogUploadUseCase implements UseCase<Blog, BlogUploadParams> {
 
   @override
   Future<Either<Failure, Blog>> call(BlogUploadParams params) async {
-    print('on use case is called 4');
     return await blogRepositary.uploadBlog(
       uploadedImage: params.uploadedImage,
       blogTitle: params.blogTitle,

@@ -16,3 +16,5 @@ final class BlogUploadEvent extends BlogEvent {
     this.topics,
   );
 }
+
+final class FetchBlogEvent extends BlogEvent {}

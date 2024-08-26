@@ -37,11 +37,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
   }
 
   void onPressedUploadBlog() {
-    print('on user clicked 1');
     if (formKey.currentState!.validate() &&
         selectedTopics.isNotEmpty &&
         image != null) {
-      print('on clicked validate 2');
       final userId =
           (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
 
@@ -64,14 +62,6 @@ class _AddNewBlogState extends State<AddNewBlog> {
         actions: [
           IconButton(
             onPressed: onPressedUploadBlog,
-            // onPressed: () {
-            //   final userId =
-            //       (context.read<AppUserCubit>().state as AppUserLoggedIn)
-            //           .user
-            //           .id;
-
-            //   print(userId);
-            // },
             icon: const Icon(Icons.done_rounded),
           ),
         ],
