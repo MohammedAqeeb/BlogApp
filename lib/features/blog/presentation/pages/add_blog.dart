@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/common/widgets/loader.dart';
+import 'package:blog_app/core/constant/topic.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/image_picker.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
@@ -132,12 +133,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                          children: [
-                        'Technology',
-                        'Daily Update',
-                        'Motivation',
-                        'Programming',
-                      ]
+                          children: ConstantTopics.topics
                               .map(
                                 (e) => Padding(
                                   padding:

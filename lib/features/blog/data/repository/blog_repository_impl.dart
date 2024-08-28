@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:blog_app/core/error/exception.dart';
 import 'package:blog_app/core/error/failure.dart';
+// import 'package:blog_app/core/network/check_connectivity.dart';
+import 'package:blog_app/features/blog/data/data_source/local_blog.dart';
 import 'package:blog_app/features/blog/data/data_source/remote_blog.dart';
 import 'package:blog_app/features/blog/data/models/blog_models.dart';
 import 'package:blog_app/features/blog/domain/entity/blog.dart';
@@ -11,8 +13,14 @@ import 'package:uuid/uuid.dart';
 
 class BlogRepositoryImpl implements BlogRepositary {
   final RemoteBlogDataSoure remoteBlogDataSoure;
+  final BlogLocalDataSource blogLocalDataSource;
+  // final CheckNetworkConnectivity checkNetworkConnectivity;
 
-  BlogRepositoryImpl(this.remoteBlogDataSoure);
+  BlogRepositoryImpl(
+    this.remoteBlogDataSoure,
+    this.blogLocalDataSource,
+    // this.checkNetworkConnectivity,
+  );
 
   @override
   Future<Either<Failure, Blog>> uploadBlog({
@@ -23,6 +31,10 @@ class BlogRepositoryImpl implements BlogRepositary {
     required List<String> topics,
   }) async {
     try {
+      // if (!await (checkNetworkConnectivity.isInternetConnected)) {
+      //   return left(const Failure('No Internet Connection!!'));
+      // }
+
       /// 1. Assigning the values to blog Models
       BlogModel blogModel = BlogModel(
         blogId: const Uuid().v1(),
@@ -54,8 +66,13 @@ class BlogRepositoryImpl implements BlogRepositary {
 
   @override
   Future<Either<Failure, List<Blog>>> fetchBlog() async {
+    // if (!await (checkNetworkConnectivity.isInternetConnected)) {
+    //   final localBlogs = blogLocalDataSource.loadBlogs();
+    //   return right(localBlogs);
+    // }
     try {
       final allBlogs = await remoteBlogDataSoure.fetchAllBlog();
+      blogLocalDataSource.uploadLocalBlogs(allBlogs);
 
       return right(allBlogs);
     } on CustomException catch (e) {

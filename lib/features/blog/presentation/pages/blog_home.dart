@@ -49,6 +49,7 @@ class _BlogHomeState extends State<BlogHome> {
         builder: (context, state) {
           if (state is FetchBlogSuccess) {
             return ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {
                 final blog = state.blogs[index];

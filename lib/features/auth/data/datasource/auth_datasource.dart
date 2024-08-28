@@ -44,8 +44,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw CustomException('User Does\'t exists');
       }
       return UserModel.fromJson(response.user!.toJson());
+    } on AuthException catch (e) {
+      throw CustomException(e.message);
     } catch (e) {
-      throw (e.toString());
+      throw CustomException(e.toString());
     }
   }
 
@@ -71,6 +73,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       return UserModel.fromJson(response.user!.toJson())
           .copyWith(email: currentUserSession!.user.email);
+    } on AuthException catch (e) {
+      throw CustomException(e.message);
     } catch (e) {
       throw CustomException(e.toString());
     }
